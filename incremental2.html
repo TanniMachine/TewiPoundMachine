@@ -55,13 +55,24 @@
     <!-- Custom JS -->
     <script>
         $(document).ready(function () {
-            let mochiCount = 0;
+    let mochiCount = 0;
     let mochiPerSecond = 0;
     let mochiPerSecondUpgradeCost = 10;
+    let canClick = true;
+
+    // Create an audio element for the sound effect
+    const soundEffect = new Audio('crit.mp3');
 
     $("#poundMochiBtn").click(function () {
-        mochiCount++;
-        $("#mochiCount").text(mochiCount);
+        if (canClick) {
+            mochiCount++;
+            $("#mochiCount").text(mochiCount);
+            canClick = false;
+            setTimeout(function () {
+                canClick = true;
+                playSoundEffect();
+            }, 500); // Allow clicking again after 0.5 seconds
+        }
     });
 
     $("#buyMochiPerSecondUpgrade").click(function () {
@@ -79,6 +90,11 @@
         mochiCount += mochiPerSecond;
         $("#mochiCount").text(mochiCount);
     }, 1000);
+
+    // Function to play the sound effect
+    function playSoundEffect() {
+        soundEffect.play();
+    }
 });
     </script>
 </body>
