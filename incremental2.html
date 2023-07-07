@@ -4,74 +4,140 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Tewi's Rabbit Mochi Incremental Game</title>
-
-    <!-- Bootstrap CSS -->
+    <title>Tewi's Mochi Pounding Game</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <style>
-        .game-container {
-            max-width: 800px;
-            margin: 20px auto;
-        }
-    </style>
+    <link href="assets/css/style.css" rel="stylesheet" media="all">
 </head>
 
 <body>
-    <div class="game-container">
-        <h1 class="text-center">Tewi's Rabbit Mochi Incremental Game</h1>
+<div class="game-container">
+    <h1 class="text-center font-bunny">Tewi's Mochi Pounding Game</h1>
 
-        <div class="d-flex justify-content-center">
-            <div class="card">
-                <img src="https://i.imgur.com/rPCK59M.jpeg" class="card-img-top" alt="Rabbit Image" width="300" height="300">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Mochi Pounded: <span id="mochiCount">0</span></h5>
-                    <button id="poundMochiBtn" class="btn btn-primary">Pound Mochi</button>
+    <div class="d-flex justify-content-center">
+        <div class="card">
+            <div class="card-header text-center">
+                How many can you pound in 2 minutes?
+            </div>
+            <img src="https://i.imgur.com/rPCK59M.jpeg" class="card-img-top" alt="Rabbit Image" width="300" height="300">
+            <div class="card-body text-center" style="position: relative;">
+                <h5 class="card-title" style="font-weight: bold;"><span id="mochiCount">0</span> <span style="font-size: 14px;">(<span id="ppsDisplay">0.00</span>/s)</span></h5>
+                <div style="overflow: none; position: absolute; width: 100%; left: 0px;">
+                    <button id="poundMochiBtn" class="btn btn-primary" style="display: block; margin: auto; width: 175px;">Pound Mochi</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="upgrades" class="mt-4">
-    <h2>Upgrades</h2>
-    <div id="mochiPerSecondUpgrade">
-        <h4>Mochi Per Second Upgrade</h4>
-        <p>Increases mochi production by +1 per second</p>
-        <button id="buyMochiPerSecondUpgrade" class="btn btn-success">Buy (Cost: 10 mochi)</button>
+    <div id="upgrades" class="mt-4">
+        <h2 class="font-bunny">「Upgrades」</h2>
+        <div id="mochiPerSecondUpgrade">
+            <h4>Mochi Per Second Upgrade</h4>
+            <p>Increases mochi production by +1 per second</p>
+            <button id="buyMochiPerSecondUpgrade" class="btn btn-success">Buy (Cost: 10 mochi)</button>
+        </div>
     </div>
 </div>
+<audio id="click_mochi_sound" src="assets/audio/mochi_sound_01.mp3" preload="auto"></audio>
+<audio id="key_mochi_sound" src="assets/audio/mochi_sound_02.mp3" preload="auto"></audio>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js">
-    </script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js">
-    </script>
+<!-- Custom JS -->
+<script>
+var poundTimes = [];
+function getRandomRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function floatText(element, text) {
+    // Create a new span element
+    let span = $("<span>").text(text);
 
-    <!-- Custom JS -->
-    <script>
-        $(document).ready(function () {
+    // Get a random variation for the starting position
+    let randomLeft = getRandomRange(-75, 75);
+    let randomTop = getRandomRange(-25, 25);
+
+    span.css({
+        position: "absolute",
+        left: element.offset().left + randomLeft + 50,
+        top: element.offset().top + randomTop,
+        fontSize: 16,
+        color: "#7f6b63",
+        fontWeight: "bold",
+        userSelect: 'none',
+        pointerEvents: 'none'
+    });
+
+    // Add the span to the body
+    $("body").append(span);
+
+    // Animate the span
+    span.animate({top: "-=50", opacity: 0}, 2000, function() {
+        $(this).remove(); // Remove the span after the animation is done
+    });
+    updatePPS();
+}
+function updatePPS() {
+    // Get the current time
+    var currentTime = Date.now();
+
+    // Filter out pounds that happened more than one second ago
+    poundTimes = poundTimes.filter(time => currentTime - time <= 1000);
+
+    // The length of poundTimes now represents the number of pounds in the last second
+    var PPS = poundTimes.length;
+
+    // Update the PPS display
+    $("#ppsDisplay").text(PPS);
+}
+$(document).ready(function () {
     let mochiCount = 0;
     let mochiPerSecond = 0;
     let mochiPerSecondUpgradeCost = 10;
-    let canClick = true;
 
     // Create an audio element for the sound effect
     const soundEffect = new Audio('path/to/crit.mp3'); // this is commented lmao
+    const click_mochi_sound = document.getElementById('click_mochi_sound');
+    const key_mochi_sound = document.getElementById('key_mochi_sound');
 
-    $("#poundMochiBtn").click(function () {
-        if (canClick) {
+    var canClick = true; // Track if a click is allowed
+
+    function poundMochi(isKey=false) {
+        if (!isKey && canClick) {
             mochiCount++;
             $("#mochiCount").text(mochiCount);
-            canClick = false;
-            setTimeout(function () {
-                canClick = true;
-                playSoundEffect();
-            }, 500); // Allow clicking again after 0.5 seconds
+            $('#poundMochiBtn').addClass('btn-danger').removeClass('btn-primary');
+            $("#poundMochiBtn").effect("shake", { times: 1, distance: 4, direction: "left", duration: 120 }); // Shake horizontally
+            floatText($("#poundMochiBtn"), "+1"); // Display the floating text
+            poundTimes.push(Date.now());
+            click_mochi_sound.currentTime = 0; // Reset the sound to the beginning
+            click_mochi_sound.play();
+            canClick = false; // Disallow further clicks until spacebar is pressed
+        } else if(isKey && !canClick) {
+            $('#poundMochiBtn').addClass('btn-primary').removeClass('btn-danger');
+            $("#poundMochiBtn").effect("shake", { times: 1, distance: 4, direction: "up", duration: 120 }); // Shake vertically
+            key_mochi_sound.currentTime = 0; // Reset the sound to the beginning
+            key_mochi_sound.play();
+            canClick = true; // Allow clicking again
+        }
+    }
+
+    $("#poundMochiBtn").click(function () {
+        poundMochi();
+    });
+
+    // Add keydown event to document
+    $(document).keydown(function (e) {
+        // If the pressed key is spacebar (keyCode 32)
+        if (e.keyCode === 32) {
+            e.preventDefault(); // Prevent the default action of the spacebar
+            poundMochi(true);
         }
     });
 
@@ -89,6 +155,10 @@
     setInterval(function () {
         mochiCount += mochiPerSecond;
         $("#mochiCount").text(mochiCount);
+        for (i = 0; i < mochiPerSecond; i++) {
+            floatText($("#poundMochiBtn"), "+1");
+            poundTimes.push(Date.now());
+        }
     }, 1000);
 
     // Function to play the sound effect
@@ -96,6 +166,6 @@
         soundEffect.play();
     }
 });
-    </script>
+</script>
 </body>
-
+</html>

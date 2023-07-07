@@ -1,0 +1,28 @@
+@font-face {
+    font-family: Small Bunny;
+    src: url(../fonts/SmallBunnyRegular.woff2) format('woff2'),
+         url(../fonts/SmallBunnyRegular.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+.font-bunny {
+	font-family: Small Bunny;
+}
+
+.game-container {
+	max-width: 800px;
+	margin: 20px auto;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+.btn:active:focus {
+	outline: none !important;
+	box-shadow: none !important;
+}
+.btn-primary {
+	background-color: #da7462 !important;
+	border-color: #da7462 !important;
+}
