@@ -7,6 +7,7 @@
     <title>Tewi's Mochi Pounding Game</title>
     <link href="assets/css/nunito.css" rel="stylesheet">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" media="all">
     <link href="assets/css/style.css" rel="stylesheet" media="all">
 </head>
 
@@ -17,25 +18,32 @@
     <div class="d-flex justify-content-center">
         <div class="card">
             <div class="card-header text-center">
-                How many can you pound in 2 minutes?
+                <div class="title-group" style="height: 25px;">
+                    How many can you pound in 2 minutes?
+                </div>
+                <div class="timer-group" style="display: none; height: 25px;">
+                    <div class="progress" style="position: relative; height: 25px;">
+                        <div id="progressBar" class="progress-bar" role="progressbar" style="width: 100%; background-color: #da7462;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div id="timer" style="position: absolute; width: 100%; font-size: 16px; text-align: center; color: white;">2:00</div>
+                    </div>
+                </div>
             </div>
             <img src="https://i.imgur.com/rPCK59M.jpeg" class="card-img-top" alt="Rabbit Image" width="300" height="300">
             <div class="card-body text-center" style="position: relative;">
-                <h5 class="card-title" style="font-weight: bold;"><span id="mochiCount">0</span> <span style="font-size: 14px;">(<span id="ppsDisplay">0.00</span>/s)</span></h5>
+                <h5 class="card-title" style="font-weight: bold;"><i class="bi bi-circle-half" style="vertical-align: 0.05rem; font-size: 16px;"></i> <span id="points">0</span> <span style="font-size: 14px;">(<span id="ppsDisplay">0.00</span>/s)</span></h5>
                 <div style="overflow: none; position: absolute; width: 100%; left: 0px;">
-                    <button id="poundMochiBtn" class="btn btn-primary" style="display: block; margin: auto; width: 175px;">Pound Mochi</button>
+                    <button id="startBtn" class="btn btn-success" style="display: block; margin: auto; width: 175px;">Start Pounding!</button>
+                    <button id="poundMochiBtn" class="btn btn-primary" style="display: none; margin: auto; width: 175px;">Pound Mochi</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="upgrades" class="mt-4">
+    <div class="mt-4 upgrades-group" style="display: none;">
         <h2 class="font-bunny">「Upgrades」</h2>
-        <div id="mochiPerSecondUpgrade">
-            <h4>Mochi Per Second Upgrade</h4>
-            <p>Increases mochi production by +1 per second</p>
-            <button id="buyMochiPerSecondUpgrade" class="btn btn-success">Buy (Cost: 10 mochi)</button>
-        </div>
+    </div>
+    <div id="upgrades" class="mt-2 upgrades-group" style="display: none;">
+        
     </div>
 </div>
 <audio id="click_mochi_sound" src="assets/audio/mochi_sound_01.mp3" preload="auto"></audio>
@@ -51,6 +59,120 @@
 <!-- Custom JS -->
 <script>
 var poundTimes = [];
+var points = 0;
+var pointsPerSecond = 0;
+class Upgrade {
+    constructor(id, cost, hotkey, description, incrementFunction, costMultiplier = 2) {
+        this.id = id;
+        this.cost = cost;
+        this.hotkey = hotkey;
+        this.upgradeElementId = `#${id}Button`;
+        this.description = description;
+        this.incrementFunction = incrementFunction;
+        this.costMultiplier = costMultiplier;
+        this.level = 0;
+
+        this.createHTML();
+        this.registerUpgrade();
+        this.registerHotkey();
+    }
+
+    createHTML() {
+        let html = `
+        <div id="${this.id}" class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">${this.id.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} (<span id="${this.id}Level">${this.level}</span>) [${this.hotkey}]</h5>
+                <p class="card-text">${this.description}</p>
+                <button id="${this.id}Button" class="btn btn-success w-100">Buy ( <i class="bi bi-circle-half" style="vertical-align: 0.15rem; font-size: 12px;"></i> ${this.cost} )</button>
+            </div>
+        </div>
+        `;
+        $('#upgrades').append(html);
+    }
+
+    registerUpgrade() {
+        const self = this;
+        $(this.upgradeElementId).click(function () {
+            if (points >= self.cost) {
+                animateShine($(this).parent());
+                points -= self.cost;
+                self.level++;
+                self.incrementFunction();
+                $('#points').text(points);
+                self.cost *= self.costMultiplier;
+                $(self.upgradeElementId).html(`Level Up ( <i class="bi bi-circle-half" style="vertical-align: 0.15rem; font-size: 12px;"></i> ${self.cost} )`);
+                $(`#${self.id}Level`).text(self.level);
+            } else {
+                $(this).parent().effect("shake", { times: 1, distance: 8, direction: "left", duration: 240 }); // Shake horizontally
+            }
+        });
+    }
+
+    registerHotkey() {
+        const self = this;
+        $(document).on('keydown', function (e) {
+            if (String.fromCharCode(e.which) === self.hotkey.toUpperCase()) {
+                $(self.upgradeElementId).click();
+            }
+        });
+    }
+}
+function animateShine(selector, duration = 400, delay = 0) {
+    setTimeout(function () {
+        // Calculate dimensions and offset of the target element
+        let targetElement = $(selector);
+        let width = targetElement.outerWidth();
+        let height = targetElement.outerHeight();
+        let offset = targetElement.offset();
+
+        // Calculate the diagonal length of the target element
+        let diagonalLength = Math.sqrt(width * width + height * height);
+
+        // Normalize the duration based on the diagonal length
+        let normalizedDuration = (duration * diagonalLength) / (width + height);
+
+        // Make the target element's position relative
+        targetElement.css("position", "relative");
+
+        // Create a wrapper element and set its style
+        let shineWrapper = $("<div>")
+            .css({
+                position: "absolute",
+                top: 0,
+                left: 0,
+                overflow: "hidden",
+                width: width,
+                height: height,
+                pointerEvents: "none",
+            })
+            .appendTo(targetElement);
+
+        let shine = $("<div>")
+            .css({
+                position: "absolute",
+                top: -diagonalLength / 2, // Adjust top position based on diagonal length
+                left: -diagonalLength, // Adjust left position to ensure off-screen start
+                width: diagonalLength * 2, // Adjust width based on the diagonal length
+                height: diagonalLength, // Adjust height based on the diagonal length
+                background:
+                    "linear-gradient(225deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%)",
+                transform: "rotate(45deg)",
+                pointerEvents: "none",
+            })
+            .appendTo(shineWrapper);
+
+        shine.animate(
+            {
+                left: diagonalLength, // Adjust left position for the animation based on diagonal length
+            },
+            normalizedDuration,
+            function () {
+                shine.remove();
+                shineWrapper.remove();
+            }
+        );
+    }, delay);
+}
 function getRandomRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -95,11 +217,30 @@ function updatePPS() {
     // Update the PPS display
     $("#ppsDisplay").text(PPS);
 }
-$(document).ready(function () {
-    let mochiCount = 0;
-    let mochiPerSecond = 0;
-    let mochiPerSecondUpgradeCost = 10;
+function startTimer(duration, onFinish) {
+    let timer = duration, minutes, seconds;
+    let progressBarWidth = 100;
+    let widthDecrement = 100 / (duration); // progress bar decrement based on the duration
 
+    let interval = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        $('#timer').text(minutes + ":" + seconds); // Update the timer text
+        progressBarWidth -= widthDecrement;
+        $('#progressBar').css('width', progressBarWidth + '%').attr('aria-valuenow', progressBarWidth);
+
+        if (--timer < 0) {
+            timer = duration;
+            clearInterval(interval);
+            if(onFinish) onFinish();
+        }
+    }, 1000);
+}
+$(document).ready(function () {
     // Create an audio element for the sound effect
     const soundEffect = new Audio('path/to/crit.mp3'); // this is commented lmao
     const click_mochi_sound = document.getElementById('click_mochi_sound');
@@ -109,8 +250,8 @@ $(document).ready(function () {
 
     function poundMochi(isKey=false) {
         if (!isKey && canClick) {
-            mochiCount++;
-            $("#mochiCount").text(mochiCount);
+            points++;
+            $("#points").text(points);
             $('#poundMochiBtn').addClass('btn-danger').removeClass('btn-primary');
             $("#poundMochiBtn").effect("shake", { times: 1, distance: 4, direction: "left", duration: 120 }); // Shake horizontally
             floatText($("#poundMochiBtn"), "+1"); // Display the floating text
@@ -140,30 +281,40 @@ $(document).ready(function () {
         }
     });
 
-    $("#buyMochiPerSecondUpgrade").click(function () {
-        if (mochiCount >= mochiPerSecondUpgradeCost) {
-            mochiCount -= mochiPerSecondUpgradeCost;
-            mochiPerSecond++;
-            $("#mochiCount").text(mochiCount);
-            $("#mochiPerSecond").text(mochiPerSecond);
-            mochiPerSecondUpgradeCost *= 2;
-            $("#buyMochiPerSecondUpgrade").text("Buy (Cost: " + mochiPerSecondUpgradeCost + " mochi)");
+    let automaticPounding = new Upgrade(
+        'automaticPounding', 
+        10,
+        'Q',
+        'Automatically pounds every second.',
+        function() { 
+            pointsPerSecond++; 
         }
+    );
+
+    $("#startBtn").click(function() {
+        // Starts the game
+        $(this).hide();
+        $("#poundMochiBtn").show();
+        $(".upgrades-group").fadeIn();
+
+        $(".title-group").hide();
+        $(".timer-group").fadeIn();
+
+        // Timer
+        startTimer(120, function() {
+            // What to do when the timer finishes goes here
+            console.log('Timer finished!');
+        });
     });
 
     setInterval(function () {
-        mochiCount += mochiPerSecond;
-        $("#mochiCount").text(mochiCount);
-        for (i = 0; i < mochiPerSecond; i++) {
+        points += pointsPerSecond;
+        $("#points").text(points);
+        for (i = 0; i < pointsPerSecond; i++) {
             floatText($("#poundMochiBtn"), "+1");
             poundTimes.push(Date.now());
         }
     }, 1000);
-
-    // Function to play the sound effect
-    function playSoundEffect() {
-        soundEffect.play();
-    }
 });
 </script>
 </body>
