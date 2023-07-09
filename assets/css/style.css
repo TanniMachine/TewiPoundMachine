@@ -10,17 +10,18 @@
 }
 
 .game-container {
-	max-width: 800px;
 	margin: 20px auto;
 }
 
 body {
-	background-image: url('../images/eientei_day.jpg');
+	background-color: #ffe7da;
+	/*background-image: url('../images/eientei_day.jpg');
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
-	background-size: cover;
+	background-size: cover;*/
     font-family: 'Nunito', sans-serif;
+    overflow: hidden;
 }
 
 .btn:active:focus {
@@ -28,20 +29,52 @@ body {
 	box-shadow: none !important;
 }
 .btn {
-
+	border-radius: 24px !important;
+	border: 1px solid rgba(0,0,0,0.75);
+	border-bottom: 2px solid rgba(0,0,0,0.75);
+	border-right: 2px solid rgba(0,0,0,0.75);
+	transition: 0.05s;
+}
+.btn:hover {
+	border: 1px solid rgba(0,0,0,0.75);
+	margin-top: -1px !important;
+	border-bottom: 4px solid rgba(0,0,0,0.75);
 }
 .btn-primary {
 	background-color: #da7462 !important;
-	border-color: #da7462 !important;
 }
 
 .card {
-	box-shadow: 10px 10px 0px 1px rgba(0,0,0,0.11);
-	-webkit-box-shadow: 10px 10px 0px 1px rgba(0,0,0,0.11);
-	-moz-box-shadow: 10px 10px 0px 1px rgba(0,0,0,0.11);
+	border-radius: 16px;
+	box-shadow: 5px 5px 0px 1px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 5px 5px 0px 1px rgba(0,0,0,0.75);
+	-moz-box-shadow: 5px 5px 0px 1px rgba(0,0,0,0.75);
+}
+
+.card * {
+	border-radius: 0px;
 }
 
 .upgrade-card {
 	background: rgb(250,218,171);
 	background: linear-gradient(180deg, rgba(250,218,171,1) 0%, rgba(251,223,183,1) 4%, rgba(252,229,197,1) 9%, rgba(252,233,206,1) 15%, rgba(253,238,217,1) 21%, rgba(254,242,227,1) 30%, rgba(254,245,233,1) 38%, rgba(254,248,240,1) 48%, rgba(255,251,244,1) 58%);
+	display: flex;
+    overflow: hidden;
+    justify-content: flex-start;
+}
+
+.falling-image {
+	position: absolute;
+	top: 0;
+	z-index: -1;
+	user-select: none;
+	pointer-events: none;
+	opacity: 0.33;
+	animation: wiggle 2s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+    0% { transform: rotate(-15deg); }
+    50% { transform: rotate(15deg); }
+    100% { transform: rotate(-15deg); }
 }
