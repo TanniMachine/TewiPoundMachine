@@ -42,8 +42,9 @@
     <div class="mt-4 upgrades-group" style="display: none;">
         <h2 class="font-bunny">「Upgrades」</h2>
     </div>
-    <div id="upgrades" class="mt-2 upgrades-group" style="display: none;">
-        
+    <!-- <div id="upgrades" class="mt-2 upgrades-group" style="display: none;"> -->
+        <div id="upgrades" class="row mt-2 upgrades-group" style="display: none;">
+
     </div>
 </div>
 <audio id="click_mochi_sound" src="assets/audio/mochi_sound_01.mp3" preload="auto"></audio>
@@ -62,6 +63,7 @@
 var poundTimes = [];
 var points = 0;
 var pointsPerSecond = 0;
+var pointsPerClick = 1;
 class Upgrade {
     constructor(id, cost, hotkey, description, incrementFunction, costMultiplier = 2) {
         this.id = id;
@@ -269,9 +271,14 @@ $(document).ready(function () {
 
     var canClick = true; // Track if a click is allowed
 
+    function increasePointsPerClick() {
+        pointsPerClick++;
+    }
+
     function poundMochi(isKey=false) {
         if (!isKey && canClick) {
-            points++;
+            // points++;
+            points += pointsPerClick;
             $("#points").text(points);
             $('#poundMochiBtn').addClass('btn-danger').removeClass('btn-primary');
             $("#poundMochiBtn").effect("shake", { times: 1, distance: 4, direction: "left", duration: 120 }); // Shake horizontally
@@ -313,6 +320,20 @@ $(document).ready(function () {
             increasePointsPerSecond();
         }
     );
+
+    let poundUpgrade = new Upgrade(
+        'poundUpgrade',
+        20,
+        'W',
+        'Increases pounds per click by +1.',
+        function () {
+            increasePointsPerClick();
+        }
+    );
+
+    $("#poundUpgradeBtn").click(function () {
+        poundUpgrade.purchase();
+    });
 
     $("#startBtn").click(function() {
         // Starts the game
