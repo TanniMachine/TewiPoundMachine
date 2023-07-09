@@ -318,6 +318,9 @@ $(document).ready(function () {
         'Automatically pounds every second.',
         function() { 
             increasePointsPerSecond();
+            click_mochi_sound.currentTime = 0; // Reset the sound to the beginning
+            click_mochi_sound.volume = 0.2;
+            click_mochi_sound.play();
         }
     );
 
@@ -328,12 +331,11 @@ $(document).ready(function () {
         'Increases pounds per click by +1.',
         function () {
             increasePointsPerClick();
+            click_mochi_sound.currentTime = 0; // Reset the sound to the beginning
+            click_mochi_sound.volume = 0.2;
+            click_mochi_sound.play();
         }
     );
-
-    $("#poundUpgradeBtn").click(function () {
-        poundUpgrade.purchase();
-    });
 
     $("#startBtn").click(function() {
         // Starts the game
