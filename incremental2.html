@@ -240,6 +240,25 @@ function startTimer(duration, onFinish) {
         }
     }, 1000);
 }
+let per_second_timer;
+
+function increasePointsPerSecond() {
+    // Increment pointsPerSecond.
+    pointsPerSecond++; 
+
+    // Clear the existing timer if it exists.
+    if (per_second_timer) {
+        clearInterval(per_second_timer);
+    }
+
+    // Start a new timer with an interval that gets halved each level.
+    let interval = 1000 / pointsPerSecond;
+    per_second_timer = setInterval(() => {
+        points += 1;
+        $('#points').text(points);
+        floatText($("#poundMochiBtn"), "+1");
+    }, interval);
+}
 $(document).ready(function () {
     // Create an audio element for the sound effect
     const soundEffect = new Audio('path/to/crit.mp3'); // this is commented lmao
@@ -257,12 +276,14 @@ $(document).ready(function () {
             floatText($("#poundMochiBtn"), "+1"); // Display the floating text
             poundTimes.push(Date.now());
             click_mochi_sound.currentTime = 0; // Reset the sound to the beginning
+            click_mochi_sound.volume = 0.2;
             click_mochi_sound.play();
             canClick = false; // Disallow further clicks until spacebar is pressed
         } else if(isKey && !canClick) {
             $('#poundMochiBtn').addClass('btn-primary').removeClass('btn-danger');
             $("#poundMochiBtn").effect("shake", { times: 1, distance: 4, direction: "up", duration: 120 }); // Shake vertically
             key_mochi_sound.currentTime = 0; // Reset the sound to the beginning
+            key_mochi_sound.volume = 0.2;
             key_mochi_sound.play();
             canClick = true; // Allow clicking again
         }
@@ -287,7 +308,7 @@ $(document).ready(function () {
         'Q',
         'Automatically pounds every second.',
         function() { 
-            pointsPerSecond++; 
+            increasePointsPerSecond();
         }
     );
 
@@ -306,15 +327,6 @@ $(document).ready(function () {
             console.log('Timer finished!');
         });
     });
-
-    setInterval(function () {
-        points += pointsPerSecond;
-        $("#points").text(points);
-        for (i = 0; i < pointsPerSecond; i++) {
-            floatText($("#poundMochiBtn"), "+1");
-            poundTimes.push(Date.now());
-        }
-    }, 1000);
 });
 </script>
 </body>

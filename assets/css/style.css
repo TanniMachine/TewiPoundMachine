@@ -15,6 +15,11 @@
 }
 
 body {
+	background-image: url('../images/eientei_day.jpg');
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
+	background-size: cover;
     font-family: 'Nunito', sans-serif;
 }
 
@@ -22,7 +27,21 @@ body {
 	outline: none !important;
 	box-shadow: none !important;
 }
+.btn {
+
+}
 .btn-primary {
 	background-color: #da7462 !important;
 	border-color: #da7462 !important;
+}
+
+.card {
+	box-shadow: 10px 10px 0px 1px rgba(0,0,0,0.11);
+	-webkit-box-shadow: 10px 10px 0px 1px rgba(0,0,0,0.11);
+	-moz-box-shadow: 10px 10px 0px 1px rgba(0,0,0,0.11);
+}
+
+.upgrade-card {
+	background: rgb(250,218,171);
+	background: linear-gradient(180deg, rgba(250,218,171,1) 0%, rgba(251,223,183,1) 4%, rgba(252,229,197,1) 9%, rgba(252,233,206,1) 15%, rgba(253,238,217,1) 21%, rgba(254,242,227,1) 30%, rgba(254,245,233,1) 38%, rgba(254,248,240,1) 48%, rgba(255,251,244,1) 58%);
 }
