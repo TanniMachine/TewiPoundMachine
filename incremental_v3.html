@@ -74,12 +74,13 @@ $(document).ready(function () {
 
     $(".start-btn").click(function() {
         let mode = $(this).data('mode');
+        let mochi_button = $('#poundMochiBtn');
 
         switch(mode) {
             case 'normal':
                 // Starts the game
                 $(".start-btn").hide();
-                $("#poundMochiBtn").show();
+                mochi_button.show();
                 $(".upgrades-group").fadeIn();
 
                 $(".title-group").hide();
@@ -89,16 +90,20 @@ $(document).ready(function () {
                 eurobeat_tei.volume = 0.55;
                 eurobeat_tei.play();
 
+
                 // Timer
-                startTimer(240, function() {
+                startTimer(1, function() {
                     // What to do when the timer finishes goes here
                     console.log('Timer finished!');
+                    mochi_button.prop('disabled', true);
+                    clearInterval(per_second_timer);
+                    $(".upgrades-group").prop('disabled', true);
                 });
                 break;
             case 'zen':
                 // Starts the game
                 $(".start-btn").hide();
-                $("#poundMochiBtn").show();
+                mochi_button.show();
                 $(".upgrades-group").fadeIn();
 
                 $(".title-group").hide();

@@ -138,7 +138,7 @@ function floatText(element, text) {
         left: element.offset().left + randomLeft + 50,
         top: element.offset().top + randomTop,
         fontSize: 16,
-        color: "#7f6b63",
+        color: "#7f6b638e",
         fontWeight: "bold",
         userSelect: 'none',
         pointerEvents: 'none'

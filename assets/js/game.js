@@ -6,10 +6,10 @@ function poundMochi(isKey=false) {
         // points++;
         points += pointsPerClick;
         $("#points").text(points);
-        $('#poundMochiBtn').addClass('btn-danger').removeClass('btn-primary');
+        mochi_button.addClass('btn-danger').removeClass('btn-primary');
         mochi_button.effect("shake", { times: 1, distance: 4, direction: "left", duration: 120 }); // Shake horizontally
-        
-        floatText(mochi_button, "+1"); // Display the floating text
+
+        floatText(mochi_button, `+${pointsPerClick}`); // Display the floating text
         clickTimes.push(Date.now());
         updatePPS();
 
@@ -18,7 +18,7 @@ function poundMochi(isKey=false) {
         click_mochi_sound.play();
         canClick = false; // Disallow further clicks until spacebar is pressed
     } else if(isKey && !canClick) {
-        $('#poundMochiBtn').addClass('btn-primary').removeClass('btn-danger');
+        mochi_button.addClass('btn-primary').removeClass('btn-danger');
         mochi_button.effect("shake", { times: 1, distance: 4, direction: "up", duration: 120 }); // Shake vertically
         key_mochi_sound.currentTime = 0; // Reset the sound to the beginning
         key_mochi_sound.volume = 0.2;
