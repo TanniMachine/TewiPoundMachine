@@ -15,7 +15,7 @@
 
 
 let automaticPounding = new Upgrade(
-    'kinematics', 
+    'mochiKinematics', 
     10,
     'Q',
     'Automatically pounds every second.',
@@ -28,7 +28,7 @@ let automaticPounding = new Upgrade(
 );
 
 let poundUpgrade = new Upgrade(
-    'heftyPound',
+    'sora',
     20,
     'W',
     'Increases pounds per click.',
@@ -41,10 +41,10 @@ let poundUpgrade = new Upgrade(
 );
 
 let doublePoundUpgrade = new Upgrade(
-    'heftySlam',
+    'kaze',
     30,
     'E',
-    '10% chance to pound double.',
+    '10% chance to land critical pounds.',
     function () {
         key_mochi_sound.currentTime = 0;
         key_mochi_sound.volume = 0.2;
@@ -106,16 +106,21 @@ function doublePoundAction() {
         return false; // return false if not purchased
     }
 
-    if (Math.random() >= 1) {
+    if (Math.random() >= 0.1) { // 10% chance
         return false;
     }
 
-    let doublePound = (doublePoundUpgrade.level) * 2;
-  
+    // Calculate diminishing return multiplier with base 2
+    // This will yield a multiplier that starts at 2 for level 1 and grows logarithmically for each subsequent level
+    let doublePound = 2 + Math.log(doublePoundUpgrade.level);
+
     // Check if the user has upgraded the poundUpgrade and adjust doublePound accordingly.
-    if (poundUpgrade.level > 0) {
-        doublePound *= poundUpgrade.level;
+    if (poundUpgrade.level >= 1) {
+        doublePound *= (poundUpgrade.level + 1);
+        console.log('after poundUpgrade - doublePound: ' + doublePound);
+    } else {
+        console.log('before poundUpgrade - doublePound: ' + doublePound);
     }
 
-    return doublePound; // Return the critical hit value
+    return Math.round(doublePound); // Return the critical hit value
 }
