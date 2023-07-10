@@ -8,8 +8,11 @@ function poundMochi(isKey=false) {
         $("#points").text(points);
         $('#poundMochiBtn').addClass('btn-danger').removeClass('btn-primary');
         mochi_button.effect("shake", { times: 1, distance: 4, direction: "left", duration: 120 }); // Shake horizontally
+        
         floatText(mochi_button, "+1"); // Display the floating text
-        poundTimes.push(Date.now());
+        clickTimes.push(Date.now());
+        updatePPS();
+
         click_mochi_sound.currentTime = 0; // Reset the sound to the beginning
         click_mochi_sound.volume = 0.2;
         click_mochi_sound.play();

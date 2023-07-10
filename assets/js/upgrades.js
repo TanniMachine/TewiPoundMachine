@@ -66,7 +66,10 @@ function increasePointsPerSecond() {
     per_second_timer = setInterval(() => {
         points += 1;
         $('#points').text(points);
+        
         floatText($("#poundMochiBtn"), "+1");
+        timerTimes.push(Date.now());
+        updatePPS();
     }, interval);
 
     // Image fall timer.

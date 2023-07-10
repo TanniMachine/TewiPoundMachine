@@ -1,4 +1,5 @@
-var poundTimes = [];
+var clickTimes = [];
+var timerTimes = [];
 var points = 0;
 var pointsPerSecond = 0;
 var pointsPerClick = 1;
@@ -150,17 +151,17 @@ function floatText(element, text) {
     span.animate({top: "-=50", opacity: 0}, 2000, function() {
         $(this).remove(); // Remove the span after the animation is done
     });
-    updatePPS();
 }
 function updatePPS() {
     // Get the current time
     var currentTime = Date.now();
 
-    // Filter out pounds that happened more than one second ago
-    poundTimes = poundTimes.filter(time => currentTime - time <= 1000);
+    // Filter out events that happened more than one second ago
+    clickTimes = clickTimes.filter(time => currentTime - time <= 1000);
+    timerTimes = timerTimes.filter(time => currentTime - time <= 1000);
 
-    // The length of poundTimes now represents the number of pounds in the last second
-    var PPS = poundTimes.length;
+    // The length of clickTimes and timerTimes now represents the total PPS
+    var PPS = clickTimes.length + timerTimes.length;
 
     // Update the PPS display
     $("#ppsDisplay").text(PPS);
