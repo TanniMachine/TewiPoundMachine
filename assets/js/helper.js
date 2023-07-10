@@ -125,7 +125,7 @@ function animateShine(selector, duration = 400, delay = 0) {
 function getRandomRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function floatText(element, text) {
+function floatText(element, text, is_crit = false) {
     // Create a new span element
     let span = $("<span>").text(text);
 
@@ -133,16 +133,29 @@ function floatText(element, text) {
     let randomLeft = getRandomRange(-75, 75);
     let randomTop = getRandomRange(-25, 25);
 
-    span.css({
-        position: "absolute",
-        left: element.offset().left + randomLeft + 50,
-        top: element.offset().top + randomTop,
-        fontSize: 16,
-        color: "#7f6b638e",
-        fontWeight: "bold",
-        userSelect: 'none',
-        pointerEvents: 'none'
-    });
+    if (is_crit) {
+        span.css({
+            position: "absolute",
+            left: element.offset().left + randomLeft + 50,
+            top: element.offset().top + randomTop,
+            fontSize: 48,
+            color: "rgb(200,168,121)",
+            fontWeight: "bold",
+            userSelect: 'none',
+            pointerEvents: 'none'
+        });
+    } else {
+        span.css({
+            position: "absolute",
+            left: element.offset().left + randomLeft + 50,
+            top: element.offset().top + randomTop,
+            fontSize: 16,
+            color: "#7f6b638e",
+            fontWeight: "bold",
+            userSelect: 'none',
+            pointerEvents: 'none'
+        });
+    }
 
     // Add the span to the body
     $("body").append(span);
@@ -188,4 +201,100 @@ function startTimer(duration, onFinish) {
             if(onFinish) onFinish();
         }
     }, 1000);
+}
+function startStream(phrases) {
+    var phrase = phrases[Math.floor(Math.random() * phrases.length)];
+    var fontSize = getRandomRange(16, 32);
+    var speed = getRandomRange(2000, 7000);
+    var opacity = getRandomRange(0.25, 0.5);
+
+    var chatLine = $('<div class="chatText">' + phrase + '</div>').css('font-size', fontSize + 'px').css('opacity', opacity);
+    
+    $("#chatStream").append(chatLine);
+    
+    var startY = Math.random() * ($("#chatStream").height() - chatLine.height());
+
+    chatLine.css({
+        "right": -chatLine.width(),
+        "top": startY
+    });
+
+    chatLine.animate({
+        "right": $("#chatStream").width()
+    }, {
+        duration: speed,
+        complete: function () {
+            $(this).remove();
+        }
+    });
+}
+
+function spawnTexts(crit_amount) {
+    var texts = getRandomRange(18, 32); // Random number of texts between 1 and 20
+    var phrases = [
+        `${crit_amount}！！！！！！！ WOW！！！！！！！！`, 
+        "すごい！！", 
+        "ワオ！", 
+        "なんてことだ！", 
+        "キター！", 
+        "面白い！", 
+        "やばい！", 
+        "大変なことになったね！", 
+        "きれい！", 
+        `${crit_amount}ポイントダメージ！`,
+        `${crit_amount}ヒット！`,
+        "大勝利！",
+        "すごい効果！",
+        "それは予想外！",
+        `${crit_amount}倍楽しい！！！！！！！`,
+        "ものすごいパワー！",
+        "かごめ、かごめ。",
+        "何が起こったの？！！！",
+        "衝撃的な結果！",
+        `${crit_amount}点満点！`,
+        "うさ、うさ、うさ、うさ！！！",
+        "てゐ！てゐ！てゐ！てゐ！てゐ！てゐ！！！！"
+    ];
+    for (var i = 0; i < texts; i++) {
+        setTimeout(function() {
+            startStream(phrases);
+        }, i * 100); // Rapid succession with delay between each text spawn
+    }
+}
+// Define a function to animate your points and image
+function animatePointsAndImage() {
+    // Select the points span and the image
+    let pointsSpan = $("#points");
+    let image = $(".card-title img");
+
+    // Save the initial scale (assuming it's 1)
+    let initialScale = 1;
+
+    // Calculate the target scale (you may need to adjust this value)
+    let targetScale = 24 / parseInt(pointsSpan.css('font-size'));
+
+    pointsSpan.css('display', 'inline-block'); // Make sure the span behaves like a block-level element
+
+    // Stop any ongoing animations, and instantly reset to initial scale
+    pointsSpan.add(image).stop().css('transform', `scale(${initialScale})`);
+
+    // Animate to the target scale
+    pointsSpan.add(image).css('transform', `scale(${initialScale})`).animate({ transformScale: targetScale }, {
+        duration: 200, 
+        step: function(now, fx) {
+            $(this).css('transform', `scale(${now})`);
+        },
+        complete: function() {
+            // Animate back to the initial scale
+            $(this).animate({ transformScale: initialScale }, {
+                duration: 200, 
+                step: function(now, fx) {
+                    $(this).css('transform', `scale(${now})`);
+                },
+                complete: function() {
+                    pointsSpan.css('display', ''); // Revert the display property back to its original state
+                }
+            });
+        }
+    });
 }

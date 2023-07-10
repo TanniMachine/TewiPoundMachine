@@ -12,6 +12,7 @@
 </head>
 
 <body>
+<div id="chatStream"></div>    
 <div class="game-container">
     <h1 class="text-center font-bunny">Tewi's Mochi Pounding Game</h1>
 
@@ -28,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <img src="assets/images/kine.jpeg" class="card-img-top" alt="Rabbit Image" width="300" height="300">
+            <img src="assets/images/kine.jpeg" class="tewi-image card-img-top" alt="Rabbit Image">
             <div class="card-body text-center" style="position: relative;">
                 <h5 class="card-title" style="font-weight: bold;"><img src="assets/images/CuisineIconMochi.png" width="24" height="24"> <span id="points">0</span> <span style="font-size: 14px;">(<span id="ppsDisplay">0.00</span>/s)</span></h5>
                 <div style="overflow: none; position: absolute; width: 100%; left: 0px;">
@@ -51,9 +52,11 @@
     </div>
 </div>
 <!-- Audios -->
+<audio id="crit_sound" src="assets/audio/crit.mp3" preload="auto"></audio>
 <audio id="click_mochi_sound" src="assets/audio/mochi_sound_01.mp3" preload="auto"></audio>
 <audio id="key_mochi_sound" src="assets/audio/mochi_sound_02.mp3" preload="auto"></audio>
 <audio id="eurobeat_tei" src="assets/audio/【東方】ってゐ! Eurobeat Mix「Sekken'ya (石鹸屋)」 (128 kbps).mp3" preload="auto"></audio>
+<audio id="heaven" src="assets/audio/Heaven (Instrumental) - Persona 4.mp3" preload="auto"></audio>
 <!-- jQuery -->
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="assets/js/jquery-ui.js"></script>
@@ -67,10 +70,11 @@
 <script>
 $(document).ready(function () {
     // Create an audio element for the sound effect
-    const soundEffect = new Audio('path/to/crit.mp3'); // this is commented lmao
+    const crit_sound = document.getElementById('crit_sound');
     const click_mochi_sound = document.getElementById('click_mochi_sound');
     const key_mochi_sound = document.getElementById('key_mochi_sound');
     const eurobeat_tei = document.getElementById('eurobeat_tei');
+    const heaven = document.getElementById('heaven');
 
     $(".start-btn").click(function() {
         let mode = $(this).data('mode');
@@ -108,6 +112,15 @@ $(document).ready(function () {
 
                 $(".title-group").hide();
                 $(".timer-group").fadeIn();
+
+                heaven.currentTime = 0;
+                heaven.volume = 0.55;
+                heaven.play();
+
+                animateShine($('.tewi-image'));
+                $('.tewi-image').attr('src', 'assets/images/zen.jpg');
+                $('.tewi-image').hide();
+                $('.tewi-image').fadeIn();
 
                 $("#progressBar").css('background-color', '#198754');
                 $("#timer").text('えーマジ 初月！？[ZEN MODE] キャハハハハハハ');

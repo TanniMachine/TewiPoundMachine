@@ -84,3 +84,24 @@ body {
     50% { transform: rotate(15deg); }
     100% { transform: rotate(-15deg); }
 }
+
+#chatStream {
+    position: absolute;
+    height: 800px;
+    width: 100%;
+}
+
+.chatText {
+    position: absolute;
+    white-space: nowrap;
+    color: #000;
+    user-select: none;
+    pointer-events: none;
+}
+
+.tewi-image {
+    width: 387px;
+    height: 300px;
+    object-fit: contain;
+    object-position: center;
+}

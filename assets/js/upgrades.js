@@ -24,7 +24,8 @@ let automaticPounding = new Upgrade(
         key_mochi_sound.currentTime = 0; // Reset the sound to the beginning
         key_mochi_sound.volume = 0.2;
         key_mochi_sound.play();
-    }
+    },
+    1.18
 );
 
 let poundUpgrade = new Upgrade(
@@ -58,7 +59,7 @@ let doublePoundUpgrade = new Upgrade(
 
 let per_second_timer;
 let image_fall_timer;
-
+let bunny_fall_timer;
 
 function increasePointsPerSecond() {
     // Increment pointsPerSecond.
@@ -99,6 +100,22 @@ function increasePointsPerSecond() {
 
 function increasePointsPerClick() {
     pointsPerClick++;
+
+    if (bunny_fall_timer) {
+        clearInterval(bunny_fall_timer);
+    }
+
+    // Image fall timer.
+    let bunnyFallInterval = 7000 / pointsPerClick;
+    bunny_fall_timer = setInterval(() => {
+        let img = $('<img class="falling-image" src="assets/images/ItemIconLuckyRabbit.png" width="64" height="64">');
+        let leftPos = Math.random() * ($(window).width() - img.width());
+        img.css({ 'left': leftPos + 'px', 'top': '-64px' });  // Image initially outside of the screen
+        $(document.body).append(img);
+        img.animate({ 'top': $(window).height() + 'px' }, 5000, 'easeOutQuad', function() {
+            $(this).remove();
+        });
+    }, bunnyFallInterval);
 }
 
 function doublePoundAction() {
