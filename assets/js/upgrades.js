@@ -21,6 +21,9 @@ let automaticPounding = new Upgrade(
     'Automatically pounds every second.',
     function() { 
         increasePointsPerSecond();
+        key_mochi_sound.currentTime = 0; // Reset the sound to the beginning
+        key_mochi_sound.volume = 0.2;
+        key_mochi_sound.play();
     }
 );
 
@@ -31,6 +34,9 @@ let poundUpgrade = new Upgrade(
     'Increases pounds per click by +1.',
     function () {
         increasePointsPerClick();
+        key_mochi_sound.currentTime = 0; // Reset the sound to the beginning
+        key_mochi_sound.volume = 0.2;
+        key_mochi_sound.play();
     }
 );
 
