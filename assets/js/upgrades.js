@@ -28,13 +28,25 @@ let automaticPounding = new Upgrade(
 );
 
 let poundUpgrade = new Upgrade(
-    'poundUpgrade',
+    'heftyPound',
     20,
     'W',
-    'Increases pounds per click by +1.',
+    'Increases pounds per click.',
     function () {
         increasePointsPerClick();
         key_mochi_sound.currentTime = 0; // Reset the sound to the beginning
+        key_mochi_sound.volume = 0.2;
+        key_mochi_sound.play();
+    }
+);
+
+let doublePoundUpgrade = new Upgrade(
+    'heftySlam',
+    30,
+    'E',
+    '10% chance to pound double.',
+    function () {
+        key_mochi_sound.currentTime = 0;
         key_mochi_sound.volume = 0.2;
         key_mochi_sound.play();
     }
@@ -87,4 +99,23 @@ function increasePointsPerSecond() {
 
 function increasePointsPerClick() {
     pointsPerClick++;
+}
+
+function doublePoundAction() {
+    if (doublePoundUpgrade.level <= 0) {
+        return false; // return false if not purchased
+    }
+
+    if (Math.random() >= 1) {
+        return false;
+    }
+
+    let doublePound = (doublePoundUpgrade.level) * 2;
+  
+    // Check if the user has upgraded the poundUpgrade and adjust doublePound accordingly.
+    if (poundUpgrade.level > 0) {
+        doublePound *= poundUpgrade.level;
+    }
+
+    return doublePound; // Return the critical hit value
 }

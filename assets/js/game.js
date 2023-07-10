@@ -3,13 +3,19 @@ var mochi_button = $("#poundMochiBtn");
 
 function poundMochi(isKey=false) {
     if (!isKey && canClick) {
-        // points++;
-        points += pointsPerClick;
+        let additionalPoints = doublePoundAction(); // get the critical hit from doublePoundAction
+
+        if (additionalPoints) { // If the critical hit was activated
+            points += additionalPoints; // The critical hit value replaces pointsPerClick
+            floatText(mochi_button, `+${additionalPoints}`); // Display the critical hit floating text
+        } else { // If the critical hit was not activated
+            points += pointsPerClick; // Add the regular points per click
+            floatText(mochi_button, `+${pointsPerClick}`); // Display the regular floating text
+        }
+
         $("#points").text(points);
         mochi_button.addClass('btn-danger').removeClass('btn-primary');
         mochi_button.effect("shake", { times: 1, distance: 4, direction: "left", duration: 120 }); // Shake horizontally
-
-        floatText(mochi_button, `+${pointsPerClick}`); // Display the floating text
         clickTimes.push(Date.now());
         updatePPS();
 
@@ -26,7 +32,6 @@ function poundMochi(isKey=false) {
         canClick = true; // Allow clicking again
     }
 }
-
 mochi_button.click(function () {
     poundMochi();
 });
