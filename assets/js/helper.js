@@ -267,6 +267,10 @@ function animatePointsAndImage() {
     let pointsSpan = $("#points");
     let image = $(".card-title img");
 
+    // Select the progress bar, the image and the text from your new elements
+    let progressImage = $(".perfect-meter-contanier");
+    let progressText = $(".perfect-meter-text");
+
     // Save the initial scale (assuming it's 1)
     let initialScale = 1;
 
@@ -276,10 +280,12 @@ function animatePointsAndImage() {
     pointsSpan.css('display', 'inline-block'); // Make sure the span behaves like a block-level element
 
     // Stop any ongoing animations, and instantly reset to initial scale
-    pointsSpan.add(image).stop().css('transform', `scale(${initialScale})`);
+    pointsSpan.add(image).add(progressImage).add(progressText)
+        .stop().css('transform', `scale(${initialScale})`);
 
     // Animate to the target scale
-    pointsSpan.add(image).css('transform', `scale(${initialScale})`).animate({ transformScale: targetScale }, {
+    pointsSpan.add(image).add(progressImage).add(progressText)
+        .css('transform', `scale(${initialScale})`).animate({ transformScale: targetScale }, {
         duration: 200, 
         step: function(now, fx) {
             $(this).css('transform', `scale(${now})`);

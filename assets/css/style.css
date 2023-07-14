@@ -81,6 +81,20 @@ body {
 	animation: wiggle 2s ease-in-out infinite;
 }
 
+.wiggle-short {
+	animation: wiggle-short 2s ease-in-out infinite;
+}
+
+.wiggle {
+	animation: wiggle 4s ease-in-out infinite;
+}
+
+@keyframes wiggle-short {
+    0% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
+    100% { transform: rotate(-8deg); }
+}
+
 @keyframes wiggle {
     0% { transform: rotate(-15deg); }
     50% { transform: rotate(15deg); }

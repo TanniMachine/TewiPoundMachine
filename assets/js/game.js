@@ -11,10 +11,15 @@ $(document).mousemove(function(e) {
     cursorY = e.pageY;
 });
 
+let lastPoundTime = null;
+let perfectMeterVisible = false;
+
 function poundMochi(isKey = false) {
     if (!isKey && canClick) {
         let additionalPoints = doublePoundAction(); // get the critical hit from doublePoundAction
         let basePoints = additionalPoints ? additionalPoints : pointsPerClick;
+
+        lastPoundTime = Date.now();  // record the time of the pound
 
         // If we're in fever mode, gain 2x more points
         if (feverMode) {
@@ -30,7 +35,7 @@ function poundMochi(isKey = false) {
             crit_sound.currentTime = 0; // Reset the sound to the beginning
             crit_sound.volume = 0.3;
             crit_sound.play();
-            updatePerfectMeter(10);
+            updatePerfectMeter(2);
         } else { // If the critical hit was not activated
             floatText(mochi_button, `+${basePoints}`); // Display the regular floating text
             click_mochi_sound.currentTime = 0; // Reset the sound to the beginning
@@ -44,7 +49,9 @@ function poundMochi(isKey = false) {
         mochi_button.effect("shake", { times: 1, distance: 4, direction: "left", duration: 120 }); // Shake horizontally
         clickTimes.push(Date.now());
         updatePPS();
-        updatePerfectMeter(5);
+        perfectMeterComboNumber++;
+        $('.perfect-meter-text-number').text(perfectMeterComboNumber);
+        updatePerfectMeter(1);
 
         canClick = false; // Disallow further clicks until spacebar is pressed
     } else if (isKey && !canClick) {
@@ -70,6 +77,7 @@ $(document).keydown(function (e) {
 });
 
 // Initialize a variable for the perfect meter value
+let perfectMeterComboNumber = 0;
 let perfectMeterValue = 0;
 let feverMode = false;
 
@@ -88,6 +96,10 @@ function updatePerfectMeter(addValue) {
             // If so, start fever mode
             feverMode = true;
 
+            $('.perfect-meter-text-main').hide();
+            $('.perfect-meter-text-sub').hide();
+            $('.perfect-meter-text-fever').show();
+
             // Change the page's body background color to #d9b0db
             $("body").animate({
                 backgroundColor: "#d9b0db"
@@ -100,12 +112,23 @@ function updatePerfectMeter(addValue) {
         }
     }
 
+    if (!perfectMeterVisible && perfectMeterValue >= 25) {
+        perfectMeterVisible = true;
+        $('.perfect-meter-card').animate({
+            left: '0px'
+        }, 500)
+    }
+
     // Update the progress bar's 'height' and 'aria-valuenow' attributes
     $(".perfect-meter").css("height", `${perfectMeterValue}%`).attr("aria-valuenow", perfectMeterValue);
 
     // If we're in fever mode and the meter has dropped to 0, end fever mode
     if (feverMode && perfectMeterValue === 0) {
         feverMode = false;
+
+        $('.perfect-meter-text-main').show();
+        $('.perfect-meter-text-sub').show();
+        $('.perfect-meter-text-fever').hide();
         
         // Return the background color to its original state
         $("body").animate({
@@ -120,19 +143,16 @@ function updatePerfectMeter(addValue) {
 }
 
 // Set the decrement per second
-let decrementPerSecond = 20;
+let decrementPerSecond = 5;
 
-// Call this function on document ready to start decreasing the meter gradually
 function startDecreasingMeter() {
-    // Decrease the meter every 200ms for a smooth animation
     setInterval(() => {
-        // Check if we're in fever mode
-        if (feverMode) {
-            // In fever mode, decrease the meter 2.5x faster
-            updatePerfectMeter(-2 * decrementPerSecond / 20);
-        } else {
-            // Here we calculate a decrement value proportional to the time elapsed, for a total of decrementPerSecond per second
-            updatePerfectMeter(-decrementPerSecond / 20);
+        // If the last pound was more than 0.25 seconds ago or we're in fever mode, decrease the meter
+        if (!lastPoundTime || Date.now() - lastPoundTime >= 250 || feverMode) {
+            perfectMeterComboNumber = 0;
+            $('.perfect-meter-text-number').text(perfectMeterComboNumber);
+            let decrement = feverMode ? decrementPerSecond * 2.5 / 20 : decrementPerSecond / 20;
+            updatePerfectMeter(-decrement);
         }
     }, 50);
 }

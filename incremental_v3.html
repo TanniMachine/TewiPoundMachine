@@ -16,7 +16,7 @@
 <div class="game-container">
     <h1 class="text-center font-bunny">Tewi's Mochi Pounding Game</h1>
     <div class="d-flex justify-content-center">
-        <div class="card me-2" style="height: 410px;">
+        <div class="perfect-meter-card card me-2" style="height: 410px; left: 150px;">
             <div class="card-header text-center">
                 <div style="height: 25px;">
                     Perfect Meter
@@ -27,7 +27,17 @@
                     <div class="perfect-meter progress-bar" role="progressbar" style="height: 0%; background-color: #ffc26b;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div style="position: absolute; bottom: 5px; left: 10px;">
-                    <img src="assets/images/combo_meter.png" width="104" height="104">
+                    <img class="perfect-meter-contanier" src="assets/images/combo_meter.png" width="104" height="104">
+                </div>
+                <div class="perfect-meter-text wiggle-short" style="position: absolute; font-weight: bold; left: 35px; bottom: 30px;">
+                    <div>
+                        <span class="perfect-meter-text-fever" style="font-size: 16px; display: none;">FEVER!</span>
+                        <span class="perfect-meter-text-main perfect-meter-text-number" style="font-size: 24px;">2</span>
+                    </div>
+                    <div style="margin-top: -8px;">
+                        <span class="perfect-meter-text-fever" style="display: none;">⠀</span>
+                        <span class="perfect-meter-text-main">Perfect!</span>
+                    </div>
                 </div>
             </div>
         </div>
