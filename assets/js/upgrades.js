@@ -29,7 +29,7 @@ let automaticPounding = new Upgrade(
 );
 
 let poundUpgrade = new Upgrade(
-    'sora',
+    'bunnyBash',
     20,
     'W',
     'Increases pounds per click.',
@@ -42,7 +42,7 @@ let poundUpgrade = new Upgrade(
 );
 
 let doublePoundUpgrade = new Upgrade(
-    'kaze',
+    'hop\'nSquash',
     30,
     'E',
     '10% chance to land critical pounds.',

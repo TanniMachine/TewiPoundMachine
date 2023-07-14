@@ -55,6 +55,8 @@ body {
 	box-shadow: 5px 5px 0px 1px rgba(0,0,0,0.75);
 	-webkit-box-shadow: 5px 5px 0px 1px rgba(0,0,0,0.75);
 	-moz-box-shadow: 5px 5px 0px 1px rgba(0,0,0,0.75);
+/*	border-color: rgba(0, 0, 0, 0.75);*/
+	border-color: rgb(247 129 113 / 11%);
 }
 
 .card * {
@@ -100,8 +102,50 @@ body {
 }
 
 .tewi-image {
-    width: 387px;
+    width: 100%;
     height: 300px;
     object-fit: contain;
     object-position: center;
+}
+.progress.vertical {
+  width: 20px; /* Width of the progress bar */
+  height: 80%; /* Full height */
+  position: relative;
+  margin: auto;
+  float: none;
+  display: inline-block;
+}
+
+.progress.vertical .progress-bar {
+  width: 100%; /* Set width of the progress bar */
+  position: absolute;
+  bottom: 0;
+}
+.card-header {
+	position: relative; /* Establishes a context for absolute positioning of children */
+	border-top-right-radius: 16px !important;
+	border-top-left-radius: 16px !important;
+	background-color: rgb(247 129 113 / 11%);
+}
+.spacer {
+	height: 24px; /* this element will maintain the height of the card-header */
+	visibility: hidden; /* this makes the element invisible but still taking up space */
+}
+.progress-container {
+	position: absolute; /* Absolute positioning */
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.progress {
+	width: 100%;
+	height: 100%;
+	border-top-right-radius: 16px;
+	border-top-left-radius: 16px;
 }

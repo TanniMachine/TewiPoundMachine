@@ -6,10 +6,10 @@ var pointsPerClick = 1;
 
 class Upgrade {
     constructor(id, cost, hotkey, description, incrementFunction, costMultiplier = 1.8) {
-        this.id = id;
+        this.id = id.replace('\'', '-');
         this.cost = cost;
         this.hotkey = hotkey;
-        this.upgradeElementId = `#${id}Button`;
+        this.upgradeElementId = `#${this.id}Button`;
         this.description = description;
         this.incrementFunction = incrementFunction;
         this.costMultiplier = costMultiplier;
@@ -24,7 +24,7 @@ class Upgrade {
         let html = `
         <div id="${this.id}" class="card upgrade-card ms-2 mb-2" style="width: 20rem;">
             <div class="card-body">
-                <h5 class="card-title font-bunny" style="font-size: 32px;">[${this.hotkey}] ${this.id.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} <span style="font-size: 24px;">x<span id="${this.id}Level">${this.level}</span></span></h5>
+                <h5 class="card-title font-bunny" style="font-size: 32px;">[${this.hotkey}] ${this.id.replace(/([A-Z])/g, ' $1').replace(/-n/g, ' \'n ').replace(/^./, str => str.toUpperCase())} <span style="font-size: 24px;">x<span id="${this.id}Level">${this.level}</span></span></h5>
                 <p class="upgrade-cost" style="font-size: 18px; font-weight: bold;">
                     <img src="assets/images/CuisineIconMochi.png" width="24" height="24"> <span id="${this.id}Cost">${this.cost}</span>
                 </p>
