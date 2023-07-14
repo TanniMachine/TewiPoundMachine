@@ -22,6 +22,7 @@ body {
 	background-size: cover;*/
     font-family: 'Nunito', sans-serif;
     overflow: hidden;
+    height: 1500px;
 }
 
 .btn:active:focus {

@@ -316,3 +316,27 @@ function fadeOutMusic(audioElement) {
         }
     }, 50);  // run interval in shorter time frames
 }
+function makeItRain() {
+    animateShine(document.body, 300);
+
+    let totalDuration = 10000; // 10 seconds total
+
+    // Ensure numImages is between 40 and 60
+    let numImages = getRandomRange(40, 60);
+
+    let imageFallInterval = totalDuration / numImages; // Divide total duration by number of images
+
+    let intervalId = setInterval(() => {
+        let img = $('<img class="falling-image" src="assets/images/CuisineIconMochi.png" width="64" height="64">');
+        let leftPos = Math.random() * ($(window).width() - img.width());
+        img.css({ 'left': leftPos + 'px', 'top': '-64px' });  // Image initially outside of the screen
+        $(document.body).append(img);
+        img.animate({ 'top': $(window).height() + 'px' }, 5000, 'easeOutQuad', function() {
+            $(this).remove();
+        });
+
+        if (--numImages <= 0) {
+            clearInterval(intervalId);
+        }
+    }, imageFallInterval);
+}

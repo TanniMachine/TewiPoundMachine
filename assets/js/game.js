@@ -95,6 +95,7 @@ function updatePerfectMeter(addValue) {
         if (perfectMeterValue === 100) {
             // If so, start fever mode
             feverMode = true;
+            makeItRain();
 
             $('.perfect-meter-text-main').hide();
             $('.perfect-meter-text-sub').hide();
