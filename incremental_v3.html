@@ -24,7 +24,7 @@
             </div>
             <div class="card-body text-center" style="position: relative; user-select: none; pointer-events: none;">
                 <div class="progress vertical">
-                    <div class="progress-bar" role="progressbar" style="height: 50%; background-color: #ffc26b;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="perfect-meter progress-bar" role="progressbar" style="height: 0%; background-color: #ffc26b;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div style="position: absolute; bottom: 5px; left: 10px;">
                     <img src="assets/images/combo_meter.png" width="104" height="104">
@@ -140,6 +140,8 @@ $(document).ready(function () {
         let mode = $(this).data('mode');
         let mochi_button = $('#poundMochiBtn');
 
+        startDecreasingMeter();
+
         switch(mode) {
             case 'normal':
                 // Starts the game
@@ -153,7 +155,6 @@ $(document).ready(function () {
                 ice_milk_tei.currentTime = 0;
                 ice_milk_tei.volume = 0.55;
                 ice_milk_tei.play();
-
 
                 // Timer
                 startTimer(180, function() {
