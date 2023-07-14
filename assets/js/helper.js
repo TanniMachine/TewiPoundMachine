@@ -298,3 +298,15 @@ function animatePointsAndImage() {
         }
     });
 }
+function fadeOutMusic(audioElement) {
+    let fadeInterval = setInterval(function() {
+        // Only fade if not at zero already
+        if (audioElement.volume != 0) {
+            audioElement.volume -= 0.01;  // decrease volume in smaller steps
+            if (audioElement.volume <= 0.01) {
+                clearInterval(fadeInterval);
+                audioElement.volume = 0; // Ensure volume is set to 0 at the end
+            }
+        }
+    }, 50);  // run interval in shorter time frames
+}

@@ -159,8 +159,11 @@ $(document).ready(function () {
                 startTimer(180, function() {
                     // What to do when the timer finishes goes here
                     console.log('Timer finished!');
-                    mochi_button.prop('disabled', true);
+                    
                     clearInterval(per_second_timer);
+                    fadeOutMusic(ice_milk_tei);
+
+                    mochi_button.prop('disabled', true);
                     $(".upgrades-group").prop('disabled', true);
                 });
                 break;
