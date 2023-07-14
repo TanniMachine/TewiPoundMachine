@@ -95,6 +95,9 @@ function updatePerfectMeter(addValue) {
         if (perfectMeterValue === 100) {
             // If so, start fever mode
             feverMode = true;
+            fever.currentTime = 0; // Reset the sound to the beginning
+            fever.volume = 0.8;
+            fever.play();
             makeItRain();
 
             $('.perfect-meter-text-main').hide();
