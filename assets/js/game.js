@@ -135,19 +135,97 @@ function poundMochi(button, isKey = false) {
                         game_sequence = 200;
 
                         // Timer
-                        startTimer(180, function() {
+                        startTimer(2, function() {
                             // What to do when the timer finishes goes here
                             console.log('Timer finished!');
-
-                            $('.tewi-image').attr('src', 'assets/images/end_screen.jpg');
-                            $('.tewi-image').hide();
-                            $('.tewi-image').fadeIn();
-                            
-                            clearInterval(per_second_timer);
                             fadeOutMusic(ice_milk_tei);
 
-                            $("#poundMochiBtn").prop('disabled', true);
-                            $(".upgrades-group").prop('disabled', true);
+                            setTimeout(function() {
+                                muse_end.currentTime = 0;
+                                muse_end.volume = 0.7;
+                                muse_end.play();
+                            }, 500);
+
+                            setTimeout(function() {
+                                animateShine(document.body)
+                                $('.tewi-image').attr('src', 'assets/images/end_screen.jpg');
+                                $('.tewi-image').hide();
+                                $('.tewi-image').fadeIn();
+                                
+                                if (per_second_timer) {
+                                    clearInterval(per_second_timer);
+                                }
+                                // if (image_fall_timer) {
+                                //     clearInterval(image_fall_timer);
+                                // }
+                                // if (bunny_fall_timer) {
+                                //     clearInterval(bunny_fall_timer);
+                                // }
+
+                                // // Image fall timer.
+                                // let cloverFallInterval = 333;
+                                // clover_fall_timer = setInterval(() => {
+                                //     let img = $('<img class="falling-image" src="assets/images/ItemIconLuckyClover.png" width="64" height="64">');
+                                //     let leftPos = Math.random() * ($(window).width() - img.width());
+                                //     img.css({ 'left': leftPos + 'px', 'top': '-64px' });  // Image initially outside of the screen
+                                //     $(document.body).append(img);
+                                //     img.animate({ 'top': $(window).height() + 'px' }, 5000, 'easeOutQuad', function() {
+                                //         $(this).remove();
+                                //     });
+                                // }, cloverFallInterval);
+
+                                $('.perfect-meter-card').animate({
+                                    left: '150px'
+                                }, 500);
+                                $('.credits-card').animate({
+                                    left: '138px'
+                                }, 500);
+                                $('.upgrades-container').animate({
+                                    marginTop: '50rem'
+                                }, 750);
+
+                                let has_played_before = localStorage.getItem('has_played_before');
+                                if (!has_played_before) {
+                                    $('.medals-card').animate({
+                                        left: '0px'
+                                    }, 500);
+                                    $('.achievements-card').animate({
+                                        left: '0px'
+                                    }, 500);
+
+                                    setTimeout(function() {
+                                        $('.medals-card').css('z-index', 0);
+                                        $('.achievements-card').css('z-index', 0);
+                                    }, 500);
+                                }
+
+                                localStorage.setItem('has_played_before', true);
+
+                                $("#poundMochiBtn").prop('disabled', true);
+                                $(".upgrades-group").prop('disabled', true);
+                            }, 1000);
+
+                            setTimeout(function() {
+                                if (points >= 1) {
+                                    animateShine('.medals[data-medal="bronze"]', 400);
+                                    $('.medals[data-medal="bronze"] span i').addClass('bi-check2-circle').removeClass('bi-circle');
+                                    localStorage.setItem('medal_bronze', true);
+                                }
+                            }, 2500);
+                            setTimeout(function() {
+                                if (points >= 2) {
+                                    animateShine('.medals[data-medal="silver"]', 400);
+                                    $('.medals[data-medal="silver"] span i').addClass('bi-check2-circle').removeClass('bi-circle');
+                                    localStorage.setItem('medal_silver', true);
+                                }
+                            }, 3500);
+                            setTimeout(function() {
+                                if (points >= 3) {
+                                    animateShine('.medals[data-medal="gold"]', 400);
+                                    $('.medals[data-medal="gold"] span i').addClass('bi-check2-circle').removeClass('bi-circle');
+                                    localStorage.setItem('medal_gold', true);
+                                }
+                            }, 4500);
                         });
 
                         button.canClick = true; // Allow clicking again

@@ -38,7 +38,82 @@
         </div>
     </div>
     <h1 class="text-center font-bunny game-group" style="display: none;">Tewi's Mochi Pounding Game</h1>
-    <div class="d-flex justify-content-center game-group" style="position: relative; display: none !important; left: -69px;">
+    <div class="d-flex justify-content-center game-group" style="position: relative; display: none !important; left: -124px;">
+        <div class="credits-card card me-2" style="height: 410px; width: 300px; left: 445px; overflow: auto;">
+            <div class="card-header text-center">
+                <div style="height: 25px;">
+                    Credits
+                </div>
+            </div>
+            <div class="card-body text-center" style="position: relative;">
+                <div>
+                    <div>
+                        Made By
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>TanniMachine</b>
+                    </div>
+                    <div class="mt-2">
+                        Lead Dev
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>AwesomeWulfz</b>
+                    </div>
+                    <div class="mt-2">
+                        For
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>CIIT Automatablabla</b>
+                    </div>
+                    <hr>
+                    <div class="mt-2">
+                        Game Assets
+                    </div>
+                    <div class="mt-2">
+                        Icons
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>Touhou Mystia's Izakaya</b>
+                    </div>
+                    <div class="mt-2">
+                        Fever & End Screen Sounds
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>Muse Dash</b>
+                    </div>
+                    <div class="mt-2">
+                        Normal Mode Song
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>dBu - Ice Milk Tei</b>
+                    </div>
+                    <div class="mt-2">
+                        Zen Mode Song
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>Persona - Heaven</b>
+                    </div>
+                    <div class="mt-2">
+                        Main Menu & Normal Mode Image
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>nekoguruma</b>
+                    </div>
+                    <div class="mt-2">
+                        Normal Mode End Screen Image
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>chunmarupi</b>
+                    </div>
+                    <div class="mt-2">
+                        Zen Mode Image
+                    </div>
+                    <div style="margin-top: -4px;">
+                        <b>Sami / PirateYoukai</b>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="perfect-meter-card card me-2" style="height: 410px; left: 150px;">
             <div class="card-header text-center">
                 <div style="height: 25px;">
@@ -90,7 +165,7 @@
             </div>
         </div>
         <div class="d-flex flex-column ms-2">
-            <div class="card" style="position: absolute; height: 201px;">
+            <div class="medals-card card" style="height: 201px; left: -210px; z-index: -1;">
                 <div class="card-header text-center">
                     <div style="height: 25px;">
                         Medals
@@ -102,15 +177,15 @@
                     </div>
                     <table class="mt-2">
                         <tbody>
-                            <tr>
+                            <tr class="medals" data-medal="bronze">
                                 <td><span style="color: brown;"><i class="bi bi-circle" style="vertical-align: 0;"></i> Bronze: </span></td>
                                 <td><img src="assets/images/CuisineIconMochi.png" width="24" height="24"> 1,000</td>
                             </tr>
-                            <tr>
+                            <tr class="medals" data-medal="silver">
                                 <td><span style="color: #8e8e8e;"><i class="bi bi-circle" style="vertical-align: 0;"></i> Silver:</td>
                                 <td></span> <img src="assets/images/CuisineIconMochi.png" width="24" height="24"> 2,250</td>
                             </tr>
-                            <tr>
+                            <tr class="medals" data-medal="gold">
                                 <td><span style="color: #ffcc00;"><i class="bi bi-circle" style="vertical-align: 0;"></i> Gold:</td>
                                 <td></span> <img src="assets/images/CuisineIconMochi.png" width="24" height="24"> 3,500</td>
                             </tr>
@@ -118,15 +193,15 @@
                     </table>
                 </div>
             </div>
-            <div class="card" style="position: absolute; height: 201px; top: 210px; width: 195px;">
+            <div class="achievements-card card" style="height: 201px; top: 8px; width: 195px; left: -210px; z-index: -1;">
                 <div class="card-header text-center">
                     <div style="height: 25px;">
                         Achievements
                     </div>
                 </div>
-                <div class="card-body text-center" style="position: relative;">
+                <div class="card-body text-center" style="position: relative; overflow: auto;">
                     <div>
-                        <img src="assets/images/CuisineIconMochi.png" width="48" height="48" style="filter: grayscale(100%); padding: 4px;">
+                        <img data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top" src="assets/images/CuisineIconMochi.png" width="48" height="48" style="filter: grayscale(100%); padding: 4px;">
                         <img src="assets/images/ItemIconLuckyRabbit.png" width="48" height="48" style="filter: grayscale(100%); padding: 4px;">
                         <img src="assets/images/ItemIconLuckyClover.png" width="48" height="48" style="filter: grayscale(100%); padding: 4px;">
                     </div>
@@ -150,6 +225,7 @@
 <audio id="ice_milk_tei" src="assets/audio/DBU (iCE MiLK TEi) 04 (128 kbps).mp3" preload="auto"></audio>
 <audio id="heaven" src="assets/audio/Heaven (Instrumental) - Persona 4.mp3" preload="auto"></audio>
 <audio id="fever" src="assets/audio/fever.mp3" preload="auto"></audio>
+<audio id="muse_end" src="assets/audio/museEnd.mp3" preload="auto"></audio>
 
 <!-- jQuery -->
 <script src="assets/js/jquery-3.6.0.min.js"></script>
@@ -162,12 +238,17 @@
 <!-- Custom JS -->
 <script src="assets/js/helper.js"></script>
 <script>
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 $(document).ready(function () {
     // Create an audio element for the sound effect
     const crit_sound = document.getElementById('crit_sound');
     const click_mochi_sound = document.getElementById('click_mochi_sound');
     const key_mochi_sound = document.getElementById('key_mochi_sound');
     const fever = document.getElementById('fever');
+    const muse_end = document.getElementById('muse_end');
     const ice_milk_tei = document.getElementById('ice_milk_tei');
     const heaven = document.getElementById('heaven');
 
@@ -207,6 +288,28 @@ $(document).ready(function () {
         $('.game-group').show();
 
         game_sequence = 100;
+    }
+
+    let medal_bronze = localStorage.getItem('medal_bronze');
+    if (medal_bronze) {
+        animateShine('.medals[data-medal="bronze"]', 400);
+        $('.medals[data-medal="bronze"] span i').addClass('bi-check2-circle').removeClass('bi-circle');
+    }
+    let medal_silver = localStorage.getItem('medal_silver');
+    if (medal_silver) {
+        animateShine('.medals[data-medal="silver"]', 400);
+        $('.medals[data-medal="silver"] span i').addClass('bi-check2-circle').removeClass('bi-circle');
+    }
+    let medal_gold = localStorage.getItem('medal_gold');
+    if (medal_gold) {
+        animateShine('.medals[data-medal="gold"]', 400);
+        $('.medals[data-medal="gold"] span i').addClass('bi-check2-circle').removeClass('bi-circle');
+    }
+
+    let has_played_before = localStorage.getItem('has_played_before');
+    if (has_played_before) {
+        $('.medals-card').css('z-index', 0).css('left', '0px');
+        $('.achievements-card').css('z-index', 0).css('left', '0px');
     }
 });
 </script>

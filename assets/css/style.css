@@ -168,3 +168,17 @@ body {
 	border-top-left-radius: 16px;
 	background-color: #ffe7da;
 }
+.tooltip .tooltip-inner {
+	background-color: white;
+	border-radius: 16px;
+	box-shadow: 2px 2px 0px 1px rgba(0,0,0,0.75);
+	-webkit-box-shadow: 2px 2px 0px 1px rgba(0,0,0,0.75);
+	-moz-box-shadow: 2px 2px 0px 1px rgba(0,0,0,0.75);
+/*	border-color: rgba(0, 0, 0, 0.75);*/
+	border-color: rgb(247 129 113 / 11%);
+	color: #000;
+}
+
+.tooltip-arrow {
+    display: none !important;
+}
