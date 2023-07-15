@@ -48,7 +48,7 @@ class Upgrade {
                 self.cost *= self.costMultiplier;
                 self.cost = Math.round(self.cost);
                 $(self.upgradeElementId).html(`Level Up`);
-                $(`#${self.id}Cost`).text(self.cost);
+                $(`#${self.id}Cost`).text(self.cost.toLocaleString());
                 $(`#${self.id}Level`).text(self.level);
             } else {
                 $(this).parent().effect("shake", { times: 1, distance: 8, direction: "left", duration: 240 }); // Shake horizontally
@@ -177,7 +177,7 @@ function updatePPS() {
     var PPS = clickTimes.length + timerTimes.length;
 
     // Update the PPS display
-    $("#ppsDisplay").text(PPS);
+    $("#ppsDisplay").text(PPS.toLocaleString());
 }
 function startTimer(duration, onFinish) {
     let timer = duration, minutes, seconds;

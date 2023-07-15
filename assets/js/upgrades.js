@@ -78,7 +78,7 @@ function increasePointsPerSecond() {
     let interval = 1000 / pointsPerSecond;
     per_second_timer = setInterval(() => {
         points += 1;
-        $('#points').text(points);
+        $('#points').text(points.toLocaleString());
         
         floatText($("#poundMochiBtn"), "+1");
         timerTimes.push(Date.now());

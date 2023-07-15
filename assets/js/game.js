@@ -135,7 +135,7 @@ function poundMochi(button, isKey = false) {
                         game_sequence = 200;
 
                         // Timer
-                        startTimer(2, function() {
+                        startTimer(180, function() {
                             // What to do when the timer finishes goes here
                             console.log('Timer finished!');
                             fadeOutMusic(ice_milk_tei);
@@ -206,21 +206,21 @@ function poundMochi(button, isKey = false) {
                             }, 1000);
 
                             setTimeout(function() {
-                                if (points >= 1) {
+                                if (points >= 2000) {
                                     animateShine('.medals[data-medal="bronze"]', 400);
                                     $('.medals[data-medal="bronze"] span i').addClass('bi-check2-circle').removeClass('bi-circle');
                                     localStorage.setItem('medal_bronze', true);
                                 }
                             }, 2500);
                             setTimeout(function() {
-                                if (points >= 2) {
+                                if (points >= 3000) {
                                     animateShine('.medals[data-medal="silver"]', 400);
                                     $('.medals[data-medal="silver"] span i').addClass('bi-check2-circle').removeClass('bi-circle');
                                     localStorage.setItem('medal_silver', true);
                                 }
                             }, 3500);
                             setTimeout(function() {
-                                if (points >= 3) {
+                                if (points >= 5000) {
                                     animateShine('.medals[data-medal="gold"]', 400);
                                     $('.medals[data-medal="gold"] span i').addClass('bi-check2-circle').removeClass('bi-circle');
                                     localStorage.setItem('medal_gold', true);
@@ -325,7 +325,7 @@ function poundMochi(button, isKey = false) {
                     click_mochi_sound.play();
                 }
 
-                $("#points").text(points);
+                $("#points").text(points.toLocaleString());
                 animatePointsAndImage();
                 button.button.addClass('btn-danger').removeClass('btn-primary');
                 button.button.effect("shake", { times: 1, distance: 4, direction: "left", duration: 120 }); // Shake horizontally
