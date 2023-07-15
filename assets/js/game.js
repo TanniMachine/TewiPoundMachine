@@ -119,6 +119,8 @@ function poundMochi(button, isKey = false) {
                         key_mochi_sound.volume = 0.2;
                         key_mochi_sound.play();
 
+                        startDecreasingMeter();
+
                         // Starts the game
                         $(".start-btn").parent().removeClass('d-flex').hide();
                         $("#poundMochiBtn").show();
@@ -168,6 +170,8 @@ function poundMochi(button, isKey = false) {
                         key_mochi_sound.currentTime = 0; // Reset the sound to the beginning
                         key_mochi_sound.volume = 0.2;
                         key_mochi_sound.play();
+
+                        startDecreasingMeter();
 
                         // Starts the game
                         $(".start-btn").parent().removeClass('d-flex').hide();
