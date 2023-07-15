@@ -129,7 +129,7 @@ function poundMochi(button, isKey = false) {
                         $(".timer-group").fadeIn();
 
                         ice_milk_tei.currentTime = 0;
-                        ice_milk_tei.volume = 0.55;
+                        ice_milk_tei.volume = 0.25;
                         ice_milk_tei.play();
 
                         game_sequence = 200;
@@ -262,6 +262,11 @@ function poundMochi(button, isKey = false) {
 
                         heaven.currentTime = 0;
                         heaven.volume = 0.55;
+
+                        // Event listener to trigger loop and pause when the song ends
+                        heaven.addEventListener('ended', handleLoopAndPause);
+
+                        // Start playing the song
                         heaven.play();
 
                         animateShine($('.tewi-image'));

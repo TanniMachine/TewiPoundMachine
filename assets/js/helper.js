@@ -406,3 +406,11 @@ function animateDimensions(elementClass, width, height, duration) {
         }, duration);
     });
 }
+
+// Function to handle the loop and pause
+function handleLoopAndPause() {
+    setTimeout(function () {
+      heaven.currentTime = 0; // Reset the current time to the beginning of the song
+      heaven.play(); // Start playing the song again
+    }, 5000); // 5000 milliseconds = 5 seconds
+  }
