@@ -66,9 +66,8 @@ function poundMochi(button, isKey = false) {
                 game_sequence = 1;
                 button.canClick = true; // Allow clicking again
 
-                $('.tutorial-text[data-sequence="6"]').show();
                 setTimeout(function() {
-                    $(`.tutorial-button[data-button_sequence="1"]`).fadeIn();
+                    $('.tutorial-text[data-sequence="6"]').fadeIn();
                 }, 5500);
             }
             break;
