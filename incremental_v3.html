@@ -12,11 +12,34 @@
 </head>
 
 <body>
-<div id="chatStream"></div>    
+<div id="chatStream"></div>
 <div class="game-container">
-    <h1 class="text-center font-bunny">Tewi's Mochi Pounding Game</h1>
-    <div class="d-flex justify-content-center">
-        <div class="perfect-meter-card card me-2" style="height: 410px; left: 150px;">
+    <h1 class="text-center font-bunny intro-header intro-group" style="position: absolute; top: 250px; left: 50%; transform: translate(-50%, -50%);"></h1>
+    <div class="d-flex justify-content-center intro-group tutorial-group" style="position: relative; top: 50px; display: none !important;">
+        <div class="tutorial-card card" style="width: 0px; height: 0px;">
+            <div class="card-body" style="position: relative; font-size: 32px;">
+                <div class="tutorial-text text-center font-bunny" data-sequence="0">
+                </div>
+                <div class="tutorial-text text-center font-bunny mt-2" data-sequence="1">
+                </div>
+                <div class="tutorial-text text-center font-bunny mt-2" data-sequence="2">
+                </div>
+                <div class="tutorial-text text-center mt-2" data-sequence="3" style="display: none;">
+                    <button class="tutorial-button btn btn-primary" data-button_sequence="0" style="margin: auto; width: 225px;">Unassuming Button</button>
+                </div>
+                <div class="tutorial-text text-center font-bunny mt-2" data-sequence="4">
+                </div>
+                <div class="tutorial-text text-center font-bunny mt-2" data-sequence="5">
+                </div>
+                 <div class="tutorial-text text-center mt-2" data-sequence="6" style="display: none;">
+                    <button class="tutorial-button btn btn-primary" data-button_sequence="1" style="margin: auto; width: 225px; display: none;">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 class="text-center font-bunny game-group" style="display: none;">Tewi's Mochi Pounding Game</h1>
+    <div class="d-flex justify-content-center game-group" style="position: relative; display: none !important;">
+        <div class="perfect-meter-card card me-2" style="position: absolute; height: 410px; left: 766px;">
             <div class="card-header text-center">
                 <div style="height: 25px;">
                     Perfect Meter
@@ -24,7 +47,7 @@
             </div>
             <div class="card-body text-center" style="position: relative; user-select: none; pointer-events: none;">
                 <div class="progress vertical">
-                    <div class="perfect-meter progress-bar" role="progressbar" style="height: 0%; background-color: #ffc26b;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="perfect-meter progress-bar" role="progressbar" style="height: 0%; background-color: #ffe7da;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div style="position: absolute; bottom: 5px; left: 10px;">
                     <img class="perfect-meter-contanier" src="assets/images/combo_meter.png" width="104" height="104">
@@ -67,7 +90,7 @@
             </div>
         </div>
         <div class="d-flex flex-column ms-2">
-            <div class="card" style="height: 201px;">
+            <div class="card" style="position: absolute; height: 201px;">
                 <div class="card-header text-center">
                     <div style="height: 25px;">
                         Medals
@@ -95,7 +118,7 @@
                     </table>
                 </div>
             </div>
-            <div class="card" style="height: 201px; margin-top: 8px;">
+            <div class="card" style="position: absolute; height: 201px; top: 210px; width: 195px;">
                 <div class="card-header text-center">
                     <div style="height: 25px;">
                         Achievements
@@ -148,63 +171,43 @@ $(document).ready(function () {
     const ice_milk_tei = document.getElementById('ice_milk_tei');
     const heaven = document.getElementById('heaven');
 
-    $(".start-btn").click(function() {
-        let mode = $(this).data('mode');
-        let mochi_button = $('#poundMochiBtn');
+    let has_viewed_tutorial = localStorage.getItem('has_viewed_tutorial');
 
-        startDecreasingMeter();
+    if (!has_viewed_tutorial) {
+        setTimeout(function() {
+            teletype('intro-header', 'こんばんてい～！てゐです！', 1500);
+        }, 1000);
+        setTimeout(function() {
+            convertText('intro-header', 'Hello! Tewi here!', 2500);
+        }, 3000);
+        setTimeout(function() {
+            $('.intro-header').animate({
+                'top': '25px'
+            }, 1000);
+        }, 6000);
+        setTimeout(function() {
+            $('.tutorial-group').show();
+            animateDimensions('tutorial-card', '387px', '512px', 1850);
+        }, 7500);
+        setTimeout(function() {
+            teletype('tutorial-text[data-sequence="0"]', 'Welcome to my incremental rhythm game!', 2250);
+        }, 11750);
+        setTimeout(function() {
+            teletype('tutorial-text[data-sequence="1"]', `Today, you'll be pounding mochis!`, 2250);
+        }, 14250);
+        setTimeout(function() {
+            teletype('tutorial-text[data-sequence="2"]', `But first, let's begin with the instructions...`, 2250);
+        }, 16750);
+        setTimeout(function() {
+            $('.tutorial-text[data-sequence="3"]').fadeIn();
+            teletype('tutorial-text[data-sequence="4"]', `Try clicking on that button!`, 1250);
+        }, 19250);
+    } else {
+        $('.intro-group').removeClass('d-flex').hide();
+        $('.game-group').show();
 
-        switch(mode) {
-            case 'normal':
-                // Starts the game
-                $(".start-btn").hide();
-                mochi_button.show();
-                $(".upgrades-group").fadeIn();
-
-                $(".title-group").hide();
-                $(".timer-group").fadeIn();
-
-                ice_milk_tei.currentTime = 0;
-                ice_milk_tei.volume = 0.55;
-                ice_milk_tei.play();
-
-                // Timer
-                startTimer(180, function() {
-                    // What to do when the timer finishes goes here
-                    console.log('Timer finished!');
-                    
-                    clearInterval(per_second_timer);
-                    fadeOutMusic(ice_milk_tei);
-
-                    mochi_button.prop('disabled', true);
-                    $(".upgrades-group").prop('disabled', true);
-                });
-                break;
-            case 'zen':
-                // Starts the game
-                $(".start-btn").hide();
-                mochi_button.show();
-                $(".upgrades-group").fadeIn();
-
-                $(".title-group").hide();
-                $(".timer-group").fadeIn();
-
-                heaven.currentTime = 0;
-                heaven.volume = 0.55;
-                heaven.play();
-
-                animateShine($('.tewi-image'));
-                $('.tewi-image').attr('src', 'assets/images/zen.jpg');
-                $('.tewi-image').hide();
-                $('.tewi-image').fadeIn();
-
-                $("#progressBar").css('background-color', '#198754');
-                $("#timer").text('えーマジ 初月！？[ZEN MODE] キャハハハハハハ');
-                break;
-            default:
-                break;
-        }
-    });
+        game_sequence = 100;
+    }
 });
 </script>
 <script src="assets/js/game.js"></script>

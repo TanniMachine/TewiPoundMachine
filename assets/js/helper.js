@@ -340,3 +340,69 @@ function makeItRain() {
         }
     }, imageFallInterval);
 }
+function convertText(elementClass, newText, duration) {
+    var $element = $('.' + elementClass);
+    var originalText = $element.text();
+    var timePerLetter = duration / Math.max(originalText.length, newText.length);
+
+    // Create an array of character indices for the new text
+    var newCharIndices = Array.from(newText, (_, i) => i);
+
+    // Pad or trim the original text to match the new text length
+    var paddedText = originalText.padEnd(newText.length, ' ').substring(0, newText.length);
+
+    function replaceLetter() {
+        // Pick a random index from the new text character indices
+        var randomIndex = newCharIndices.splice(Math.floor(Math.random() * newCharIndices.length), 1)[0];
+        
+        // Replace the character in the padded text with the character from the new text at the picked index
+        paddedText = paddedText.substring(0, randomIndex) + newText[randomIndex] + paddedText.substring(randomIndex + 1);
+        
+        // Update the text in the element
+        $element.text(paddedText);
+
+        // If there are still characters left to replace, schedule the next replacement
+        if (newCharIndices.length > 0) {
+            setTimeout(replaceLetter, timePerLetter);
+        }
+    }
+
+    replaceLetter();
+}
+function teletype(elementClass, newText, duration) {
+    var $element = $('.' + elementClass);
+    $element.html('|'); // clear the existing text and start with a cursor
+
+    var timePerLetter = duration / newText.length;
+    var i = 0;
+
+    function typeLetter() {
+        $element.html(newText.substring(0, i+1) + '|');
+        i++;
+        if (i < newText.length) {
+            setTimeout(typeLetter, timePerLetter);
+        } else {
+            // If all letters have been typed, remove the cursor after a delay
+            setTimeout(function() {
+                $element.html(newText.substring(0, i));
+            }, timePerLetter);
+        }
+    }
+
+    typeLetter();
+}
+function animateDimensions(elementClass, width, height, duration) {
+    var $element = $('.' + elementClass);
+
+    // First animate the width
+    $element.animate({
+        width: width
+    }, duration, function() {
+        // This function is called when the width animation is complete
+
+        // Then animate the height
+        $element.animate({
+            height: height
+        }, duration);
+    });
+}

@@ -10,6 +10,7 @@
 }
 
 .game-container {
+	position: relative;
 	margin: 20px auto;
 }
 
@@ -123,18 +124,20 @@ body {
     object-position: center;
 }
 .progress.vertical {
-  width: 20px; /* Width of the progress bar */
-  height: 80%; /* Full height */
-  position: relative;
-  margin: auto;
-  float: none;
-  display: inline-block;
+	width: 20px; /* Width of the progress bar */
+	height: 80%; /* Full height */
+	position: relative;
+	margin: auto;
+	float: none;
+	display: inline-block;
+	background-color: transparent;
+	border: 1px solid rgba(0,0,0,0.75);
 }
 
 .progress.vertical .progress-bar {
-  width: 100%; /* Set width of the progress bar */
-  position: absolute;
-  bottom: 0;
+	width: 100%; /* Set width of the progress bar */
+	position: absolute;
+	bottom: 0;
 }
 .card-header {
 	position: relative; /* Establishes a context for absolute positioning of children */
@@ -163,4 +166,5 @@ body {
 	height: 100%;
 	border-top-right-radius: 16px;
 	border-top-left-radius: 16px;
+	background-color: #ffe7da;
 }
