@@ -166,7 +166,7 @@ body {
 	height: 100%;
 	border-top-right-radius: 16px;
 	border-top-left-radius: 16px;
-	background-color: #ffe7da;
+	background-color: rgb(247 129 113 / 11%);
 }
 .tooltip .tooltip-inner {
 	background-color: white;
