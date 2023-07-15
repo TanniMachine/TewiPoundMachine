@@ -345,7 +345,7 @@ function updatePerfectMeter(addValue) {
     if (!perfectMeterVisible && perfectMeterValue >= 25) {
         perfectMeterVisible = true;
         $('.perfect-meter-card').animate({
-            left: '624px'
+            left: '0px'
         }, 500)
     }
 
